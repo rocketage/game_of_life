@@ -14,7 +14,7 @@ function GLView(canvasId, vertexShaderId, fragmentShaderId) {
 
     // set the resolution
     var resolutionLocation = gl.getUniformLocation(program, "u_resolution");
-    gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
+    gl.uniform2f(resolutionLocation, canvas.clientWidth, canvas.clientHeight);
 
     // Colour variable
     var colorLocation = gl.getUniformLocation(program, "u_color");
@@ -58,8 +58,8 @@ function GLView(canvasId, vertexShaderId, fragmentShaderId) {
     };
 
     this.initGrid = function(grid, gridWidth, gridHeight) {
-        var cellWidth = canvas.width / gridWidth;
-        var cellHeight = canvas.height / gridHeight;
+        var cellWidth = canvas.clientWidth / gridWidth;
+        var cellHeight = canvas.clientHeight / gridHeight;
         grid.callAll(function(cell) {
             cell.vertexArray = getRectangleVertexArray(
                 cell.x * cellWidth,

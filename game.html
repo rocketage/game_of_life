@@ -50,9 +50,28 @@
 </head>
 
 <body onload="main();">
-    <canvas id="canvas" width="1200" height="600"></canvas>
-    <footer>
-        Framerate: <span id="fps">~</span> fps
-    </footer>
+    <header>
+        Block size:
+            <select id="blocksize">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="4" selected>3</option>
+                <option value="8">4</option>
+                <option value="16">5</option>
+                <option value="32">6</option>
+            </select>
+        Frame rate:
+            <select id="framerate">
+                <option value="60">60</option>
+                <option value="30">30</option>
+                <option value="15" selected>15</option>
+                <option value="10">10</option>
+                <option value="5">5</option>
+                <option value="1">1</option>
+            </select>
+        Actual framerate: <span id="fps">~</span> fps
+        <button id="restart">Restart</button>
+    </header>
+    <canvas id="canvas" width="1200px" height="600px" style="padding-top: 10px;"></canvas>
 </body>
 </html>
