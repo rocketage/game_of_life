@@ -4,64 +4,55 @@
     <meta charset="UTF-8">
     <title>Game of life</title>
 
-    <script src="src/Command.js"></script>
     <script src="src/Cell.js"></script>
     <script src="src/Rules.js"></script>
     <script src="src/Grid.js"></script>
     <script src="src/Evolution.js"></script>
-</head>
+    <script src="src/GLView.js"></script>
+    <script src="lib/webgl-utils.js"></script>
+    <script src="src/app.js"></script>
 
-<body>
-    <textarea id="view" style="font-family: 'monospace'; font-size: 20px; width:1200px; height: 650px;"></textarea>
+    <script id="2d-vertex-shader" type="x-shader/x-vertex">
 
-    <script>
-        var width = 119;
-        var height = 32;
-        var liveProbability = 0.5
-        var grid = new Grid(width, height);
-        var evolution = new Evolution();
-        var drawGrid = new Grid(width, height);
-        var rules = new Rules();
-        var commands;
+        attribute vec2 a_position;
 
-        var initDrawGrid = function() {
-            drawGrid.init(function(x, y) {
-                return grid.cell(x, y).alive ? "1" : "0";
-            })
-        };
+        uniform vec2 u_resolution;
 
-        var draw = function() {
-            var view = document.getElementById("view");
-            view.value = "";
+        void main() {
+           // convert the rectangle from pixels to 0.0 to 1.0
+           vec2 zeroToOne = a_position / u_resolution;
 
-            for (var y = 0; y < height; ++y) {
-                for (var x = 0; x < width; ++x) {
-                    view.value += drawGrid.cell(x, y);
-                }
-                view.value += "\n";
-            }
-        };
+           // convert from 0->1 to 0->2
+           vec2 zeroToTwo = zeroToOne * 2.0;
 
-        var cycle = function() {
-            var commands = evolution.analyse(rules);
-            evolution.update(commands);
-            initDrawGrid();
-            draw();
-            //console.log("tick", commands);
+           // convert from 0->2 to -1->+1 (clipspace)
+           vec2 clipSpace = zeroToTwo - 1.0;
+
+           // gl_Position = vec4(clipSpace, 0, 1);
+           gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);
+
         }
 
-        grid.init(function () {
-            return new Cell(Math.random() > liveProbability ? true : false);
-        });
+    </script>
 
-        evolution.create(grid);
-        evolution.addCellNeighbours();
+    <script id="2d-fragment-shader" type="x-shader/x-fragment">
 
-        initDrawGrid(grid);
-        draw();
+        precision mediump float;
 
-        setInterval(cycle, 50);
+        uniform vec4 u_color;
+
+        void main() {
+           gl_FragColor = u_color;
+           // gl_FragColor = vec4(1.0, 0.5, 0.5, 1);
+        }
 
     </script>
+</head>
+
+<body onload="main();">
+    <canvas id="canvas" width="1200" height="600"></canvas>
+    <footer>
+        Framerate: <span id="fps">~</span> fps
+    </footer>
 </body>
 </html>

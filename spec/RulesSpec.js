@@ -24,9 +24,9 @@ describe("Rules", function() {
         });
 
         it("should generate a 'die' command to kill the cell", function () {
-            var command = rules(liveCell);
-            expect(command.action).toBe("die");
-            expect(command.cell).toBe(liveCell);
+            var cell = rules(liveCell);
+            expect(cell.action).toBe('D');
+            expect(cell).toBe(liveCell);
         });
     });
 
@@ -37,9 +37,9 @@ describe("Rules", function() {
         });
 
         it("should generate a 'die' command to kill the cell", function () {
-            var command = rules(liveCell);
-            expect(command.action).toBe("die");
-            expect(command.cell).toBe(liveCell);
+            var cell = rules(liveCell);
+            expect(cell.action).toBe('D');
+            expect(cell).toBe(liveCell);
         });
     });
 
@@ -54,9 +54,9 @@ describe("Rules", function() {
         });
 
         it("should generate a 'live' command to continue the cell", function () {
-            var command = rules(liveCell);
-            expect(command.action).toBe("live");
-            expect(command.cell).toBe(liveCell);
+            var cell = rules(liveCell);
+            expect(cell.action).toBe('L');
+            expect(cell).toBe(liveCell);
         });
     });
 
@@ -70,9 +70,9 @@ describe("Rules", function() {
         });
 
         it("should generate a 'live' command to continue the cell", function () {
-            var command = rules(liveCell);
-            expect(command.action).toBe("live");
-            expect(command.cell).toBe(liveCell);
+            var cell = rules(liveCell);
+            expect(cell.action).toBe('L');
+            expect(cell).toBe(liveCell);
         });
     });
 
@@ -89,9 +89,9 @@ describe("Rules", function() {
         });
 
         it("should generate a 'die' command to kill the cell", function () {
-            var command = rules(liveCell);
-            expect(command.action).toBe("die");
-            expect(command.cell).toBe(liveCell);
+            var cell = rules(liveCell);
+            expect(cell.action).toBe('D');
+            expect(cell).toBe(liveCell);
         });
     });
 
@@ -107,9 +107,9 @@ describe("Rules", function() {
         });
 
         it("should generate a 'die' command to kill the cell", function () {
-            var command = rules(liveCell);
-            expect(command.action).toBe("die");
-            expect(command.cell).toBe(liveCell);
+            var cell = rules(liveCell);
+            expect(cell.action).toBe('D');
+            expect(cell).toBe(liveCell);
         });
     });
 
@@ -124,9 +124,9 @@ describe("Rules", function() {
         });
 
         it("should generate a 'spawn' command to spawn the cell", function () {
-            var command = rules(deadCell);
-            expect(command.action).toBe("spawn");
-            expect(command.cell).toBe(deadCell);
+            var cell = rules(deadCell);
+            expect(cell.action).toBe('S');
+            expect(cell).toBe(deadCell);
         });
     });
 
@@ -136,8 +136,8 @@ describe("Rules", function() {
         });
 
         it("should generate no command", function () {
-            var command = rules(deadCell);
-            expect(command === null).toBe(true);
+            var cell = rules(deadCell);
+            expect(cell === null).toBe(true);
         });
     });
 

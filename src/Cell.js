@@ -4,6 +4,7 @@ function Cell(isAlive) {
     this.liveNeighbours = 0;
     this.x = 0;
     this.y = 0;
+    this.action = 'S'; // S|D|L = (spawn|die|live)
 }
 
 Cell.prototype.setNeighbours = function(neighbours) {
@@ -27,5 +28,5 @@ Cell.prototype.die = function() {
 Cell.prototype.updateNeighboursAliveCount = function(delta) {
     this.neighbours.forEach(function(neighbourCell) {
         neighbourCell.liveNeighbours += delta;
-    })
+    });
 };

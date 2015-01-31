@@ -15,25 +15,18 @@ describe("Evolution", function() {
 
         it("should give each cell an array of their neighbours", function () {
             var cell = grid.cell(1, 1);
-            expect(cell.neighbours.length).toBe(0);
-
-            evolution.addCellNeighbours();
-
             expect(cell.neighbours.length).toBe(8);
         });
 
         it("should give each cell a count of it's neighbours that are alive", function () {
             var cell = grid.cell(1, 1);
-            expect(cell.liveNeighbours).toBe(0);
-
-            evolution.addCellNeighbours();
-
             expect(cell.liveNeighbours).toBe(8);
         });
 
         it("should analyse world to generate a report of command actions for the next evolutionary cycle", function () {
             var commands = evolution.analyse(function (cell) {
-                return new Command("spawn", cell);
+                cell.action = 'S';
+                return cell;
             });
 
             expect(commands.length).toBe(25);
@@ -41,23 +34,21 @@ describe("Evolution", function() {
 
         it("should apply die command actions to evolve the world", function () {
             var cell = grid.cell(1, 1);
-            var die = new Command("die", cell);
+            cell.action = 'D';
 
             expect(cell.alive).toBe(true);
-            evolution.update([die]);
+            evolution.update([cell]);
             expect(cell.alive).toBe(false);
         });
 
         it("should notify neighbours when a cell dies", function () {
             var cell = grid.cell(1, 1);
-            var die = new Command("die", cell);
+            cell.action = 'D';
             var neighbourCell = grid.cell(2, 2);
-
-            evolution.addCellNeighbours();
 
             expect(neighbourCell.liveNeighbours).toBe(8);
 
-            evolution.update([die]);
+            evolution.update([cell]);
 
             expect(neighbourCell.liveNeighbours).toBe(7);
         });
@@ -70,26 +61,25 @@ describe("Evolution", function() {
                 return new Cell(false);
             });
             evolution.create(grid);
-            evolution.addCellNeighbours();
         });
 
         it("should apply spawn command actions to evolve the world", function() {
             var cell = grid.cell(1, 1);
-            var spawn = new Command("spawn", cell);
+            cell.action = 'S';
 
             expect(cell.alive).toBe(false);
-            evolution.update([spawn]);
+            evolution.update([cell]);
             expect(cell.alive).toBe(true);
         });
 
         it("should notify neighbours when a cell is spawn", function () {
             var cell = grid.cell(1, 1);
-            var spawn = new Command("spawn", cell);
+            cell.action = 'S';
             var neighbourCell = grid.cell(2, 2);
 
             expect(neighbourCell.liveNeighbours).toBe(0);
 
-            evolution.update([spawn]);
+            evolution.update([cell]);
 
             expect(neighbourCell.liveNeighbours).toBe(1);
         });

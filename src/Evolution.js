@@ -6,6 +6,7 @@ function Evolution() {
 
     self.create = function(grid) {
         self.grid = grid;
+        self.addCellNeighbours();
     };
 
     self.addCellNeighbours = function() {
@@ -31,28 +32,23 @@ function Evolution() {
     };
 
     self.update = function(commands) {
-        commands.forEach(function(command) {
-            // maybe move this into cell class, and call a "run command" method?
-            switch(command.action) {
-                case "die":
-                    command.cell.die();
+        commands.forEach(function(cell) {
+            switch(cell.action) {
+                case 'D':
+                    cell.die();
                     break;
 
-                case "spawn":
-                    command.cell.spawn();
+                case 'S':
+                    cell.spawn();
                     break;
 
-                case "live":
+                case 'L':
                     break;
 
                 default:
-                    throw new Error("Illegal command: " + command.action);
+                    throw new Error("Illegal command: " + cell.action);
             }
         });
-    };
-
-    self.draw = function() {
-        // Process commands on UI
     };
 };
 

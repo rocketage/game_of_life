@@ -2,16 +2,19 @@ function Rules() {
     return function(cell) {
         if (!cell.alive) {
             if (3 === cell.liveNeighbours) {
-                return new Command("spawn", cell);
+                cell.action = 'S';
+                return cell;
             }
             return null;
         }
 
         if ((2 === cell.liveNeighbours) || (3 === cell.liveNeighbours)) {
-            return new Command("live", cell);
+            cell.action = 'L';
+            return cell;
         }
 
-        return new Command("die", cell);
+        cell.action = 'D';
+        return cell;
     }
 };
 
